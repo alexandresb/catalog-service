@@ -1,0 +1,9 @@
+#spring.application.name=catalog-service
+server:
+  port: 9001
+  tomcat:
+    connection-timeout: 2s #temps max entre l'établissement de la connexion TCP avec un client et la réception de la 1ere req http
+    keep-alive-timeout: 15s #durée max d'ouverture de la connexion pour attendre de nouvelles requêtes http
+    threads:
+      max: 50 #nb max de threads dans le pool - au-delà, les requêtes http sont mises en pool
+      min-spare: 5  #nb min de thread toujours presents dans le pool, donc créés au démarrage
