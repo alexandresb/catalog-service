@@ -1,4 +1,4 @@
-#spring.application.name=catalog-service
+
 server:
   port: 9001
   tomcat:
@@ -7,3 +7,43 @@ server:
     threads:
       max: 50 #nb max de threads dans le pool - au-delà, les requêtes http sont mises en pool
       min-spare: 5  #nb min de thread toujours presents dans le pool, donc créés au démarrage
+
+spring:
+  application:
+    name: catalog-service # utilisée par le config-server pour filtrer/retrouver la configuration destinée à cette application
+  config:
+    #importation / récup des propriétés de config depuis un serveur de config quand il y en a 1 de dispo
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri:  http://localhost:8888 #URI par défaut
+      #resilience du client de config
+      request-connect-timeout: 5000 #en ms - temps max pour établir une cnx avec le config server
+      request-read-timeout: 5000 #temps max pour que le container lise la config pour configurer le(s) bean(s)
+      fail-fast: false #true pour que le retry soit mis en oeuvre pour recontacter le config server
+      retry:
+        #utilisation des vals par défaut
+        max-attempts: 20 #j'ai mis 20 au lieu de 6 (val par défaut) pour tester le retry
+        initial-interval: 1000 # en ms. interval de temps écoulé avant la 1ere nouvelle tentative (retry)
+        max-interval: 2000 #interval max pour une tentative - délai à ne pas excéder
+        multiplier: 1.1 # facteur pour calculer le délai qui doit s'écouler avant la tentative suivante
+  datasource:
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:5432/polardb_catalog
+    hikari:
+      connection-timeout: 2000 #temps max pour recevoir un obj Connection depuis le pool
+      maximum-pool-size: 5
+
+  # pour le chargement du fichier src/main/resources/schema.sql au démarrage
+#  sql:
+#    init:
+#      mode: always
+#activation du Ep /actuator/refresh à traver http
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+polar:
+  greeting: "Welcome to the local book catalog !"

@@ -1,0 +1,4 @@
+#identification du module postgres 16.3 dans Testcontainers
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16.3:///
