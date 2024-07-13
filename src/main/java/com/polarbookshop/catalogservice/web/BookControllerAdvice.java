@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //advice centralisant la gestion des exceptions au niveau du contrôleur REST BookController
-@RestControllerAdvice //déclaration d'un Advice  lié à contrôleur Spring
+@RestControllerAdvice //déclaration d'un Advice lié à contrôleur Spring
 public class BookControllerAdvice {
     @ExceptionHandler(BookNotFoundException.class)// déclare une méthode interceptant les exception BNFE
     @ResponseStatus(HttpStatus.NOT_FOUND) //définit le code de statut retourné par la réponse (404)

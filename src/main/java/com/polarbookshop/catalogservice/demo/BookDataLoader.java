@@ -29,8 +29,8 @@ public class BookDataLoader {
         bookRepository.deleteAll();//pour partir d'une table vierge pour notamment éviter la violation de  la contrainte d'unicité pour l'ISBN
 
         //utilisation de la factory method of pour créer un Record Book
-        var book1 = Book.of("1234567891", "Northern Lights", "Lyra Silverstar", 9.90);
-        var book2 = Book.of("1234567892", "Polar Journey", "Iorek Polarson", 12.90);
+        var book1 = Book.of("1234567891", "Northern Lights", "Lyra Silverstar", 9.90,"Polarsophia");
+        var book2 = Book.of("1234567892", "Polar Journey", "Iorek Polarson", 12.90,"Polarsophia");
         //les 2 opérations de sauvegarde se font au sein de la même transaction
         bookRepository.saveAll(List.of(book1, book2));
 

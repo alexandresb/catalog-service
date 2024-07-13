@@ -30,7 +30,7 @@ public class BookRepositoryJdbcTests {
     @Test
     void findBookByIsbnWhenExisting(){
         var bookIsbn="1234561237";
-        var book = Book.of(bookIsbn,"Title","Author",12.90);
+        var book = Book.of(bookIsbn,"Title","Author",12.90,"Polarsophia");
         //s'exécute dans la transaction démarquant la méthode @Test
         jdbcAggregateTemplate.insert(book);//pour "configurer / charger" les données sans utiliser le repository qui est testé
         Optional<Book> actualBook = bookRepository.findByIsbn(bookIsbn);
@@ -50,8 +50,8 @@ public class BookRepositoryJdbcTests {
 
     @Test
     void findAllBooks(){
-        var book1 = Book.of("1234561235","Title","Author",12.90);
-        var book2 = Book.of("1234561236","another Title","Author",12.90);
+        var book1 = Book.of("1234561235","Title","Author",12.90,"Polarsophia");
+        var book2 = Book.of("1234561236","another Title","Author",12.90,"Polarsophia");
         //insertion de données de test dans la base containerisée postgres managée par tc
         jdbcAggregateTemplate.insert(book1);
         jdbcAggregateTemplate.insert(book2);
@@ -67,7 +67,7 @@ public class BookRepositoryJdbcTests {
     @Test
     void existsByIsbnWhenExisting(){
         var bookIsbn="1234561237";
-        var book = Book.of(bookIsbn,"Title","Author",12.90);
+        var book = Book.of(bookIsbn,"Title","Author",12.90,"Polarsophia");
         jdbcAggregateTemplate.insert(book);
 
         boolean exists = bookRepository.existsByIsbn(bookIsbn);
@@ -84,7 +84,7 @@ public class BookRepositoryJdbcTests {
     @Test
     void deleteByIsbn(){
         var bookIsbn="1234561237";
-        var book = Book.of(bookIsbn,"Title","Author",12.90);
+        var book = Book.of(bookIsbn,"Title","Author",12.90,"Polarsophia");
         var persistedBook = jdbcAggregateTemplate.insert(book);//persistedBook record contenant l'id du livre suite à son insertion en base
 
         bookRepository.deleteByIsbn(bookIsbn);
