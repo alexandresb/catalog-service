@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+  labels:
+    app: catalog-service
+#Etat désirée pour l'application stateless catalog-service. Deployment spécifie la création d'un seul pod pour catalog-service
+spec:
+  replicas: 1 #Par défaut 1 - donc optionnel si 1 seul pod désiré.
+  #Indication du label permettant de déterminer le pod à "répliquer". Doit correspondre à un label indiqué dans template
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      name: catalog-service #nom du pod
+      #déclaration du label permettant d'identifier le pod (doit correspondre à matchLabels ci-dessus)
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: catalog-service
+          image: catalog-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+          # var d'env de configuration de catalog-service lors de son démarrage
+          env:
+            - name: BPL_JVM_THREAD_COUNT # configure le nombre de threads que la JVM peut créer au sein d'un container d'image BuildPacks
+              value: "50"
+            - name: SPRING_DATASOURCE_URL
+              #pas besoin de spécifier le port d'écoute 5432, car c'est le seul port exposé par le container
+              value: "jdbc:postgresql://polar-postgres/polardb_catalog"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-service"
+           # - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+           #   value: "true"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "testdata"
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5" ]
+      

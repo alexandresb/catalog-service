@@ -7,10 +7,14 @@ server:
     threads:
       max: 50 #nb max de threads dans le pool - au-delà, les requêtes http sont mises en pool
       min-spare: 5  #nb min de thread toujours presents dans le pool, donc créés au démarrage
-
+  #shutdown déclenché quand un SIGTERM est reçu par le serveur
+  shutdown: graceful # défaut immediate - graceful : plus de cnx entrante / finalisation du traitement des req en cours / arrêt des ressources
 spring:
   application:
     name: catalog-service # utilisée par le config-server pour filtrer/retrouver la configuration destinée à cette application
+  # temps max pour que l'application Spring complète un graceful shutdown
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
   config:
     #importation / récup des propriétés de config depuis un serveur de config quand il y en a 1 de dispo
     import: "optional:configserver:"
