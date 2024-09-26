@@ -44,7 +44,7 @@ jobs:
         uses: alexellis/arkade-get@master
         with:
           kubeconform: latest
-      - name: Valide Kubernetes manifests
+      - name: Validate Kubernetes manifests
         run: |
           kubeconform --strict k8s
   package:
