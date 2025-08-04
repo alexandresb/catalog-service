@@ -4,10 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 
 import java.time.Instant;
 
@@ -32,11 +29,15 @@ public record Book(
          Instant createdDate,
          @LastModifiedDate
          Instant lastModifiedDate,
+         @CreatedBy
+         String createdBy,
+         @LastModifiedBy
+         String lastModifiedBy,
          @Version
          int version
 ) {
     // factory method facilitant la construction d'une NOUVELLE entité Book de type Record
     public static Book of(final String isbn, final String title, final String author, final Double price,final String publisher) {
-     return new Book(null,isbn,title,author,price,publisher,null,null,0);
+     return new Book(null,isbn,title,author,price,publisher,null,null,null, null,0);
     }
 }

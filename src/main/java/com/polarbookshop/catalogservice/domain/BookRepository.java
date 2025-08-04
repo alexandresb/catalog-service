@@ -16,6 +16,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
     @Modifying //indique une op de modif d'enregistrement
     @Query("delete from Book where isbn=:isbn")//on pourrait utiliser les conv de nommage de méthodes custom
-    @Transactional
+    @Transactional //plutôt à placer sur le service
     void deleteByIsbn(String isbn);
 }

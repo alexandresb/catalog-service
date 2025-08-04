@@ -33,6 +33,8 @@ spec:
               value: "jdbc:postgresql://polar-postgres/polardb_catalog"
             - name: SPRING_CLOUD_CONFIG_URI
               value: "http://config-service"
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: http://polar-keycloak/realms/PolarBookshop
            # - name: SPRING_CLOUD_CONFIG_FAIL_FAST
            #   value: "true"
             - name: SPRING_PROFILES_ACTIVE

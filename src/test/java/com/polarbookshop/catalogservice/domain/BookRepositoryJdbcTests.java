@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
@@ -90,8 +91,25 @@ public class BookRepositoryJdbcTests {
         bookRepository.deleteByIsbn(bookIsbn);
 
         assertThat(jdbcAggregateTemplate.findById(persistedBook.id(),Book.class)).isNull();
+    }
 
+    //test que le principal /username (métadonnée d'audit) est capturé
+    @Test
+    @WithMockUser("john")
+    void whenCreateBookAuthenticatedThenAuditMetadata(){
+        var bookToCreate = Book.of("1234561238","Title","Author",12.90,"Polarsophia");
+        var createdBook = bookRepository.save(bookToCreate);
+        assertThat(createdBook.createdBy()).isEqualTo("john");
+        assertThat(createdBook.lastModifiedBy()).isEqualTo("john");
+    }
 
+    //test de non capture de métadonnée d'audit dans le cas d'une non authentification = pas d'audit
+    @Test
+    void WhenCreateBookNotAuthenticatedThenNoAuditMetadata(){
+        var bookToCreate = Book.of("1234561238","Title","Author",12.90,"Polarsophia");
+        var createdBook = bookRepository.save(bookToCreate);
+        assertThat(createdBook.createdBy()).isNull();
+        assertThat(bookToCreate.lastModifiedBy()).isNull();
     }
 
 

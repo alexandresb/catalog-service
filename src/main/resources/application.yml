@@ -38,8 +38,12 @@ spring:
     hikari:
       connection-timeout: 2000 #temps max pour recevoir un obj Connection depuis le pool
       maximum-pool-size: 5
-
-  # pour le chargement du fichier src/main/resources/schema.sql au démarrage
+  security:
+    oauth2:
+      resourceserver: #catalog-service est un resource server qui communique avec Keycloak pour obtenir une clé afin de valider la signature de l'access token reçu en entête de requête entrante
+        jwt: # il faut explicité le format JWT de l'access token car OAuth2 n'impose pas de format
+          issuer-uri: http://localhost:8080/realms/PolarBookshop #point de terminaison Keycloak - base pour accéder au JWK set
+# pour le chargement du fichier src/main/resources/schema.sql au démarrage
 #  sql:
 #    init:
 #      mode: always
