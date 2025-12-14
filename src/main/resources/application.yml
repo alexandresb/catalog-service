@@ -43,15 +43,40 @@ spring:
       resourceserver: #catalog-service est un resource server qui communique avec Keycloak pour obtenir une clé afin de valider la signature de l'access token reçu en entête de requête entrante
         jwt: # il faut explicité le format JWT de l'access token car OAuth2 n'impose pas de format
           issuer-uri: http://localhost:8080/realms/PolarBookshop #point de terminaison Keycloak - base pour accéder au JWK set
-# pour le chargement du fichier src/main/resources/schema.sql au démarrage
-#  sql:
-#    init:
-#      mode: always
-#activation du Ep /actuator/refresh à traver http
+
+#déclaration d'une propriété d'info retournée par l'EP /actuator/info
+info:
+  system: Polar Bookshop
+
+#gestion des EP /actuator/*
 management:
   endpoints:
     web:
       exposure:
-        include: refresh
+        include: refresh, health, prometheus, flyway, info, heapdump
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      #activation des EP /actuator/health/liveness et readiness
+      probes:
+        enabled: true
+  #tag des métriques exposées avec une clé/valeur application=nom app
+  metrics:
+    tags:
+      applications: ${spring.application.name}
+  info:
+    env:
+      enabled: true
+    os:
+      enabled: true
+    java:
+      enabled: true
+
+#customisation des infos de logging : ajout d'infos après le log level (%5p)
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
 polar:
   greeting: "Welcome to the local book catalog !"

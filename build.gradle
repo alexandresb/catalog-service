@@ -36,13 +36,18 @@ bootBuildImage{
 	}
 }
 
+springBoot{
+	buildInfo()
+}
+
 repositories {
 	mavenCentral()
 }
 
 ext {
 	set('springCloudVersion', "2023.0.3")
-	set('testKeycloakVersion',"3.6.0")
+	set('testKeycloakVersion', "3.6.0")
+	set('otelVersion', "2.4.0")
 }
 
 dependencies {
@@ -51,26 +56,28 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	//dépendance pour intégrer le config client
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.retry:spring-retry'
+
 	runtimeOnly 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.flywaydb:flyway-database-postgresql'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:postgresql'
-
 	//tests de la sécurité avec TestContainers
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
 
-	runtimeOnly 'org.postgresql:postgresql'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	//dépendance pour intégrer le config client
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-	implementation 'org.springframework.retry:spring-retry'
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
 }
 
 dependencyManagement {

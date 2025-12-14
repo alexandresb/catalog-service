@@ -22,6 +22,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize->authorize
+                                                        .requestMatchers("/actuator/**").permitAll()//toutes requêtes vers les actuators sont autorisés sans besoin d'authentification
                                                         .requestMatchers(HttpMethod.GET, "/","/books/**")
                                                         .permitAll().anyRequest()
                                                                         .hasRole("employee"))//seuls les employés peuvent accéder aux APIs protégées
