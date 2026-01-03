@@ -9,7 +9,7 @@ custom_build(
 )
 
 # déploiement dans K8s
-k8s_yaml(['k8s/catalog_deployment.yaml', 'k8s/catalog_service.yaml'])
+k8s_yaml(kustomize('k8s'))
 
 # port-forwarding
 k8s_resource('catalog-service', port_forwards=['9001'])

@@ -17,9 +17,10 @@ spring:
     timeout-per-shutdown-phase: 15s
   config:
     #importation / récup des propriétés de config depuis un serveur de config quand il y en a 1 de dispo
-    import: "optional:configserver:"
+    import: "" #"optional:configserver:"
   cloud:
     config:
+      enabled: false #désactivation de l'intégration du client de configuration
       uri:  http://localhost:8888 #URI par défaut
       #resilience du client de config
       request-connect-timeout: 5000 #en ms - temps max pour établir une cnx avec le config server
