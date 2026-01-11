@@ -6,13 +6,6 @@ on:
     branches: master
 concurrency: acceptance #un seul workflow Acceptance stage peut s'exécuter à la fois
 
-env:
-  OWNER: alexandresb
-  REGISTRY: ghcr.io
-  APP_REPO: catalog-service
-  DEPLOY_REPO: polar-deployment
-  VERSION: ${{ github.sha }}
-
 jobs:
   functional:
     name: Functional Acceptance Tests
