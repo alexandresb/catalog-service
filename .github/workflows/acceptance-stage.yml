@@ -8,6 +8,7 @@ on:
       - completed
     branches:
       - v2
+  workflow_dispatch:
 
 concurrency: acceptance
 
@@ -32,20 +33,3 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: echo "Running security tests"
-
-  deliver:
-    name: Deliver release candidate to production
-    needs: [ functional, performance, security ]
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Deliver application to production
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.DISPATCH_TOKEN }}
-          repository: ${{ env.OWNER }}/${{ env.DEPLOY_REPO }}
-          event-type: app_delivery
-          client-payload: '{
-            "app_image": "${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.APP_REPO }}",
-            "app_name": "${{ env.APP_REPO }}",
-            "app_version": "${{ env.VERSION }}"
-          }'
