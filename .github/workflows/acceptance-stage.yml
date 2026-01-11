@@ -1,9 +1,12 @@
 name: Acceptance Stage
 on:
   workflow_run:
-    workflows: ["Commit Stage"]
-    types: [completed]
-    branches: v2 #exécution que dans le cas où le commit stage s'exécute sur la branche v2
+    workflows:
+    - Commit Stage
+    types:
+    - completed
+    branches:
+    - v2 #exécution que dans le cas où le commit stage s'exécute sur la branche v2
 concurrency: acceptance #un seul workflow Acceptance stage peut s'exécuter à la fois
 
 env:
