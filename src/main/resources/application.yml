@@ -10,7 +10,7 @@ server:
   shutdown: graceful # défaut immediate - graceful : plus de cnx entrante / finalisation du traitement des req en cours / arrêt des ressources
 spring:
   application:
-    name: catalog-service # utilisée par le config-server pour filtrer/retrouver la configuration destinée à cette application
+    name: catalog-service
   # temps max pour que l'application Spring complète un graceful shutdown
   lifecycle:
     timeout-per-shutdown-phase: 15s
