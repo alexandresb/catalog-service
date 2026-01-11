@@ -4,7 +4,7 @@ on:
     workflows: ['Commit Stage']
     types: [completed]
     branches: master
-concurrency: acceptance
+concurrency: acceptance #un seul workflow Acceptance stage peut s'exécuter à la fois
 
 env:
   OWNER: alexandresb
