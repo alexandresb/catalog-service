@@ -56,9 +56,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	//dépendance pour intégrer le config client
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-	implementation 'org.springframework.retry:spring-retry'
 
 	runtimeOnly 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.flywaydb:flyway-database-postgresql'

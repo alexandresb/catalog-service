@@ -1,4 +1,3 @@
-
 server:
   port: 9001
   tomcat:
@@ -15,23 +14,6 @@ spring:
   # temps max pour que l'application Spring complète un graceful shutdown
   lifecycle:
     timeout-per-shutdown-phase: 15s
-  config:
-    #importation / récup des propriétés de config depuis un serveur de config quand il y en a 1 de dispo
-    import: "" #"optional:configserver:"
-  cloud:
-    config:
-      enabled: false #désactivation de l'intégration du client de configuration
-      uri:  http://localhost:8888 #URI par défaut
-      #resilience du client de config
-      request-connect-timeout: 5000 #en ms - temps max pour établir une cnx avec le config server
-      request-read-timeout: 5000 #temps max pour que le container lise la config pour configurer le(s) bean(s)
-      fail-fast: false #true pour que le retry soit mis en oeuvre pour recontacter le config server
-      retry:
-        #utilisation des vals par défaut
-        max-attempts: 20 #j'ai mis 20 au lieu de 6 (val par défaut) pour tester le retry
-        initial-interval: 1000 # en ms. interval de temps écoulé avant la 1ere nouvelle tentative (retry)
-        max-interval: 2000 #interval max pour une tentative - délai à ne pas excéder
-        multiplier: 1.1 # facteur pour calculer le délai qui doit s'écouler avant la tentative suivante
   datasource:
     username: user
     password: password
